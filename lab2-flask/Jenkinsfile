@@ -1,0 +1,105 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: python
+      image: python:3.12-slim
+      command: ["cat"]
+      tty: true
+
+    - name: docker
+      image: docker:25-cli
+      command: ["cat"]
+      tty: true
+      env:
+        - name: DOCKER_HOST
+          value: tcp://localhost:2375
+
+    - name: dind
+      image: docker:25-dind
+      securityContext:
+        privileged: true
+      env:
+        - name: DOCKER_TLS_CERTDIR
+          value: ""
+'''
+        }
+    }
+
+    environment {
+        IMAGE_NAME = 'app-generator:latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/app-generator/app-generator.git'
+            }
+        }
+
+        stage('Lint & Static Analysis') {
+            steps {
+                container('python') {
+                    sh '''
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install --upgrade pip
+                        pip install flake8
+                        [ -f requirements.txt ] && pip install -r requirements.txt || echo "No requirements.txt found"
+                        flake8 . --exclude=venv,.git,__pycache__ --count --select=E9,F63,F7,F82 --show-source --statistics || true
+                    '''
+                }
+            }
+        }
+
+        stage('Execute Tests') {
+            steps {
+                container('python') {
+                    sh '''
+                        . venv/bin/activate
+
+                        pip install pytest
+
+                        pytest . || true
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                container('docker') {
+                    sh '''
+                        sleep 10
+                        docker build -t $IMAGE_NAME -f Dockerfile.app .
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            container('docker') {
+                sh '''
+                    docker rmi $IMAGE_NAME || true
+                '''
+            }
+            echo 'Cleaning workspace...'
+            cleanWs()
+        }
+
+        success {
+            echo 'Pipeline Succeeded!'
+        }
+
+        failure {
+            echo 'Pipeline Failed!'
+        }
+    }
+}

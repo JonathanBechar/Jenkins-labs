@@ -79,6 +79,8 @@ pipeline {
 
                             ls -la flask_app.log
                         '''
+
+                        archiveArtifacts artifacts: 'flask_app.log', allowEmptyArchive: false
                     }
                 }
             }

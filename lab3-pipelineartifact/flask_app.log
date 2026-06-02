@@ -1,0 +1,24 @@
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+[2026-06-02 09:05:21,258] INFO in run: DEBUG            = True
+[2026-06-02 09:05:21,258] INFO in run: Page Compression = FALSE
+[2026-06-02 09:05:21,258] INFO in run: DBMS             = sqlite:////home/jenkins/agent/workspace/archive-test/welcome/app/flask-volt-dashboard/apps/db.sqlite3
+[2026-06-02 09:05:21,258] INFO in run: ASSETS_ROOT      = /static/assets
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+ * Serving Flask app 'run.py'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://100.96.1.22:5001
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+[2026-06-02 09:05:22,073] INFO in run: DEBUG            = True
+[2026-06-02 09:05:22,073] INFO in run: Page Compression = FALSE
+[2026-06-02 09:05:22,073] INFO in run: DBMS             = sqlite:////home/jenkins/agent/workspace/archive-test/welcome/app/flask-volt-dashboard/apps/db.sqlite3
+[2026-06-02 09:05:22,073] INFO in run: ASSETS_ROOT      = /static/assets
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+'FLASK_ENV' is deprecated and will not be used in Flask 2.3. Use 'FLASK_DEBUG' instead.
+ * Debugger is active!
+ * Debugger PIN: 481-914-870
